@@ -1,3 +1,5 @@
+import EventService from './services/EventService'
+
 export default {
   mode: 'universal',
   /*
@@ -55,5 +57,17 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  generate: {
+    // add page into generate with id
+    // routes: ['/event/5928101']
+    // better way below
+    routes: () => {
+      return EventService.getEvents().then((response) => {
+        return response.data.map((event) => {
+          return '/event/' + event.id
+        })
+      })
+    }
   }
 }
